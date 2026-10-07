@@ -1,0 +1,15 @@
+Report generated: 2026-10-07 15:39:16
+
+Result card: hamza (id 1)
+  44       ml                   77.0
+Average: 77.0   Grade: B
+
+Total students: 1
+Course statistics:
+ml (44)
+  Average: 77.0
+  Highest: hamza (77.0)
+  Lowest:  hamza (77.0)
+Highest: hamza (77.0)
+Lowest:  hamza (77.0)
+Grade bands:  A: 0   B: 1   C: 0   F: 0
