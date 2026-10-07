@@ -42,6 +42,7 @@ class Course:
         self.code = code
         self.title = title
         self.credit_hours = credit_hours
+        self.student_ids: list[int] = []
         self.teacher: Teacher | None = None
         if teacher is not None:
             self.assign_teacher(teacher)
@@ -51,6 +52,13 @@ class Course:
         self.teacher = teacher
         if self not in teacher.courses:
             teacher.courses.append(self)
+
+    def enroll(self, student: Student) -> bool:
+        """Enroll a student. Return False if the student is already enrolled."""
+        if student.student_id in self.student_ids:
+            return False
+        self.student_ids.append(student.student_id)
+        return True
 
     def __repr__(self) -> str:
         """Return a readable text for print()."""
