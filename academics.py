@@ -47,8 +47,10 @@ class Course:
         if teacher is not None:
             self.assign_teacher(teacher)
 
-    def assign_teacher(self, teacher: Teacher) -> None:
-        """Set the teacher of this course and add it to the teacher's courses."""
+        def assign_teacher(self, teacher: Teacher) -> None:
+
+          if self.teacher is not None and self in self.teacher.courses:
+            self.teacher.courses.remove(self)
         self.teacher = teacher
         if self not in teacher.courses:
             teacher.courses.append(self)
