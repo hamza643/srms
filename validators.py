@@ -6,7 +6,7 @@ from academics import GradeCalculator
 
 
 def validate_required(text: str, label: str) -> str:
-    """Return the stripped text, or raise ValueError if it is empty."""
+
     text = text.strip()
     if not text:
         raise ValueError(f"{label} cannot be empty.")

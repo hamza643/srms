@@ -20,7 +20,7 @@ class Person:
         self.phone = phone
 
     def __repr__(self) -> str:
-        """Return a readable text for print()."""
+        """Return a readable text for this object."""
         return f"{type(self).__name__}(name={self.name!r}, email={self.email!r})"
 
     def __eq__(self, other: object) -> bool:
