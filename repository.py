@@ -21,6 +21,8 @@ class Repository:
         self.courses: list[Course] = []
         self.results: list[Result] = []
         self.warning: str | None = None
+        self._next_student_id: int = 1
+        self._next_employee_id: int = 1
 
     def __enter__(self) -> Repository:
         """Load the data from the file and return the repository."""
@@ -84,12 +86,23 @@ class Repository:
             student.results.append(result)
             results.append(result)
 
+        next_student = int(raw.get("next_student_id", 1))
+        next_employee = int(raw.get("next_employee_id", 1))
+
         self.teachers, self.students = teachers, students
         self.courses, self.results = courses, results
+        self._next_student_id = max(
+            next_student, max((s.student_id for s in students), default=0) + 1
+        )
+        self._next_employee_id = max(
+            next_employee, max((t.employee_id for t in teachers), default=0) + 1
+        )
 
     def save(self) -> None:
         """Write all data to the JSON file."""
         data = {
+            "next_student_id": self._next_student_id,
+            "next_employee_id": self._next_employee_id,
             "teachers": [
                 {"employee_id": t.employee_id, "name": t.name,
                  "email": t.email, "phone": t.phone}
@@ -173,9 +186,17 @@ class Repository:
         return True
 
     def next_student_id(self) -> int:
-        """Return the next free student id."""
-        return max((s.student_id for s in self.students), default=0) + 1
+        """Hand out the next student id. An id that was handed out is never used again."""
+        value = max(
+            self._next_student_id, max((s.student_id for s in self.students), default=0) + 1
+        )
+        self._next_student_id = value + 1
+        return value
 
     def next_employee_id(self) -> int:
-        """Return the next free employee id."""
-        return max((t.employee_id for t in self.teachers), default=0) + 1
+        """Hand out the next employee id. An id that was handed out is never used again."""
+        value = max(
+            self._next_employee_id, max((t.employee_id for t in self.teachers), default=0) + 1
+        )
+        self._next_employee_id = value + 1
+        return value
